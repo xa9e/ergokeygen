@@ -1,0 +1,20 @@
+# Experimental profile: stronger penalty for off-axis ring-finger movement.
+# Use when AWDF-like patterns still feel too early compared to ASEF/QWER/ASDF.
+
+[weights]
+finger_axis_lateral = 0.95
+mixed_row_sweep_penalty = 1.00
+mixed_motor_program_penalty = 1.00
+# Keep FEWA/FEWQ alive despite stricter ring off-axis penalties: E->W is
+# mechanically preloaded by middle-finger extension, unlike isolated A->W.
+upper_reverse_axis_relief = 1.05
+upper_reverse_split_sweep_reward = -1.20
+home_return_wait_relief = 0.92
+# Keep reverse-prefix + forward-sweep combinations like FD+ASDF below aligned DF+ASDF.
+pre_sweep_direction_change_penalty = 1.35
+pre_sweep_direction_match_reward = -0.12
+
+[finger.left_ring]
+lateral_factor = 1.70
+axis_dx = 0.32
+axis_dy = -1.00

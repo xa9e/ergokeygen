@@ -1,0 +1,140 @@
+# Ergokeygen optional profile file.
+# All values below are defaults copied from the hardcoded model.
+# You may delete every line you do not want to override.
+
+[weights]
+# Core scoring
+base_key = 1.00
+rest_distance = 0.40
+dynamic_distance = 0.68
+palm_distance = 0.22
+palm_tension = 0.10
+row_top = 0.09
+row_home = -0.06
+row_bottom = 0.22
+row_number = 0.92
+pinky_start = 0.26
+
+# Shift model. Left Shift is treated as a one-hand chord that steals the pinky
+# and makes rightward reaches more expensive.
+shift = 1.10
+left_shift_right_reach = 0.60
+
+# Timing / bounce model. One finger has a recovery clock; four fingers can work
+# as a pipeline. Raise finger_recovery/timing_wait if FF/DD/etc still appear too early.
+beat_interval = 1.00
+finger_recovery = 2.72
+movement_recovery = 0.16
+movement_time_factor = 0.15
+row_change_time = 0.055
+stretch_time = 0.13
+timing_wait = 1.55
+same_key_motion = 0.42
+same_finger_motion = 0.58
+recent_same_finger = 0.16
+two_finger_bounce = 0.42
+abba_bounce = 0.70
+
+# Hand preference / rhythm
+same_hand = 0.025
+hand_switch_onehand = 0.65
+hand_switch_neutral = 0.08
+hand_switch_alternation = -0.12
+prefer_hand_penalty = 2.65
+
+# Roll, sweep, motor-program, row-lock scoring
+adjacent_roll_reward = -0.44
+forward_roll_reward = -0.27
+reverse_roll_penalty = 0.13
+compact_cluster_reward = -0.18
+smooth_trigram_reward = -0.50
+reverse_trigram_penalty = 0.08
+full_sweep_reward = -1.25
+reverse_full_sweep_penalty = 0.42
+# FEW(A/Q)-like reverse upper clusters. Raise relief/reward if FEWA/FEWQ vanish; lower if they dominate.
+upper_reverse_coupled_roll_reward = -0.36
+upper_reverse_axis_relief = 0.95
+upper_reverse_split_sweep_reward = -1.15
+home_return_wait_relief = 0.92
+# Direction continuity before/inside sweeps. Raise change penalty if FD+ASDF-like
+# reversals still appear too early; lower it if the generator becomes too monotone.
+pre_sweep_direction_change_penalty = 1.35
+pre_sweep_direction_match_reward = -0.12
+home_sweep_reward = -0.50
+non_home_sweep_reward_factor = 0.55
+mixed_row_sweep_penalty = 0.86
+asymmetric_row_actuation = 0.46
+motor_program_repeat_reward = -0.55
+mixed_motor_program_penalty = 0.85
+row_run_reward = -0.18
+bottom_lock_reward = -0.17
+row_jump_penalty = 0.34
+redirect = 0.82
+lateral_stretch = 0.70
+adjacent_roll_long_gap_penalty = 0.72
+
+# Left-index stretch keys: V is half-stretch, T/G/B are much worse, 5/6 are number-row stretches.
+index_stretch = 1.08
+half_v_stretch = 0.34
+digit_5_stretch = 0.65
+digit_6_stretch = 1.40
+
+# Cognitive likelihood is intentionally weak: obvious walks are already covered by common dictionaries.
+cognitive_sweep_reward = -0.055
+cognitive_known_walk_reward = -0.070
+cognitive_compact_reward = -0.035
+cognitive_vertical_reward = -0.035
+cognitive_cap_per_step = 0.14
+
+# Natural finger-axis model. This penalizes off-axis lateral correction like ring->W.
+finger_axis_lateral = 0.82
+finger_axis_opposite = 0.55
+finger_axis_time = 0.055
+
+[finger.left_pinky]
+axis_dx = -0.32
+axis_dy = -1.00
+lateral_factor = 1.55
+repeat_factor = 1.38
+
+[finger.left_ring]
+axis_dx = 0.26
+axis_dy = -1.00
+lateral_factor = 1.38
+repeat_factor = 1.18
+
+[finger.left_middle]
+axis_dx = -0.25
+axis_dy = -1.00
+lateral_factor = 0.72
+repeat_factor = 1.00
+
+[finger.left_index]
+axis_dx = -0.15
+axis_dy = -1.00
+lateral_factor = 0.82
+repeat_factor = 0.92
+
+[finger.right_index]
+axis_dx = 0.15
+axis_dy = -1.00
+lateral_factor = 0.82
+repeat_factor = 0.92
+
+[finger.right_middle]
+axis_dx = 0.25
+axis_dy = -1.00
+lateral_factor = 0.72
+repeat_factor = 1.00
+
+[finger.right_ring]
+axis_dx = -0.26
+axis_dy = -1.00
+lateral_factor = 1.38
+repeat_factor = 1.18
+
+[finger.right_pinky]
+axis_dx = 0.32
+axis_dy = -1.00
+lateral_factor = 1.55
+repeat_factor = 1.38

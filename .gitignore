@@ -1,0 +1,10 @@
+/target/
+/proto/
+**/__pycache__/
+*.py[cod]
+
+# Local design scratchpads; keep public docs in README.md, IDEA.md, and docs/.
+/.THOUGHTS.*
+/docs/.THOUGHTS.*
+/handoff.md
+/OPTIMIZATION.md

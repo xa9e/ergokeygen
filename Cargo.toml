@@ -1,0 +1,15 @@
+[package]
+name = "ergokeygen"
+version = "0.4.0"
+edition = "2021"
+license = "MIT"
+description = "Keyboard-comfort sequence generator with ergonomic scoring"
+repository = "https://github.com/xa9e/ergokeygen"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+strip = "symbols"
+
+[dependencies]
+rayon = "1.10"
