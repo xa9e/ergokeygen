@@ -6,6 +6,67 @@ The project started from a simple problem: tools such as keyboard-walk generator
 
 It is designed for high-volume wordlist generation where the production path must be fast enough to pipe into tools such as hashcat. The current Rust implementation is treated as the reference contract for future faster engines.
 
+## Example output
+
+For lowercase left-hand one-hand generation, the current model starts with
+strings that are easy to type as smooth left-hand rolls:
+
+```bash
+ergokeygen gen --min 4 --max 8 --prefer-hand left --mode onehand --chars lower | head
+```
+
+```text
+asdf
+asdfasdf
+sdfasdf
+asdfsdf
+fasdf
+sdfsdf
+fewasdf
+dfasdf
+asdfasd
+sefasdf
+```
+
+If you ask only for 4-character strings, the top candidates are:
+
+```bash
+ergokeygen gen --min 4 --max 4 --prefer-hand left --mode onehand --chars lower | head
+```
+
+```text
+asdf
+fsdf
+fdsa
+fewa
+asef
+qsdf
+fasd
+sdfs
+fsef
+sefd
+```
+
+At the other end of a very broad 4-character run, the model ranks strings like
+these as uncomfortable for left-hand one-hand typing:
+
+```bash
+ergokeygen gen --min 4 --max 4 --prefer-hand left --mode onehand --chars lower --beam 10000000 | tail
+```
+
+```text
+myny
+ymny
+nmym
+ymmy
+ynym
+nymy
+ymyn
+mymy
+ymym
+pppp
+```
+
 ## Why this is unusual
 
 Most keyboard-pattern generators treat the keyboard as a grid. Ergokeygen treats typing as a motor sequence.
@@ -290,6 +351,67 @@ Use Ergokeygen only for systems and data you own or are explicitly authorized to
 Проект вырос из простой проблемы: тулзы наподобие генераторов keyboard-walk умеют выдавать геометрические паттерны, но не отвечают по-настоящему на вопрос: **насколько тяжело нажать следующую клавишу из текущего состояния руки?** Ergokeygen пытается отвечать именно на этот вопрос.
 
 Он рассчитан на высокообъёмную генерацию wordlist-ов, где production-путь должен быть достаточно быстрым, чтобы кормить инструменты вроде hashcat через pipe. Текущая Rust-реализация считается reference-контрактом для будущих более быстрых engine-ов.
+
+## Пример вывода
+
+Для lowercase one-hand генерации под левую руку текущая модель начинает со
+строк, которые удобно печатать как плавные left-hand rolls:
+
+```bash
+ergokeygen gen --min 4 --max 8 --prefer-hand left --mode onehand --chars lower | head
+```
+
+```text
+asdf
+asdfasdf
+sdfasdf
+asdfsdf
+fasdf
+sdfsdf
+fewasdf
+dfasdf
+asdfasd
+sefasdf
+```
+
+Если запросить только 4-символьные строки, верх выдачи такой:
+
+```bash
+ergokeygen gen --min 4 --max 4 --prefer-hand left --mode onehand --chars lower | head
+```
+
+```text
+asdf
+fsdf
+fdsa
+fewa
+asef
+qsdf
+fasd
+sdfs
+fsef
+sefd
+```
+
+На другом конце очень широкого 4-символьного запуска текущая модель считает
+примерно такие строки неудобными для печати одной левой рукой:
+
+```bash
+ergokeygen gen --min 4 --max 4 --prefer-hand left --mode onehand --chars lower --beam 10000000 | tail
+```
+
+```text
+myny
+ymny
+nmym
+ymmy
+ynym
+nymy
+ymyn
+mymy
+ymym
+pppp
+```
 
 ## Почему это необычно
 

@@ -1,10 +1,16 @@
 use std::env;
-use std::io::{self, BufWriter, Write};
+use std::io::{self, BufWriter, ErrorKind, Write};
 
 use ergokeygen::{
     charset_by_name, generate, generate_stream, load_weights_config, score_sequence, DedupeMode,
     GenerateOptions, GenerationEngine, Hand, Layout, PreferHand, RhythmMode, Settings, Weights,
 };
+
+const BROKEN_PIPE_ERROR: &str = "__ERGOKEYGEN_BROKEN_PIPE__";
+
+pub(crate) fn is_broken_pipe_error(err: &str) -> bool {
+    err == BROKEN_PIPE_ERROR
+}
 
 pub(crate) fn run() -> Result<(), String> {
     let args: Vec<String> = env::args().skip(1).collect();
@@ -117,15 +123,15 @@ fn run_generate(args: &[String]) -> Result<(), String> {
             } else {
                 writeln!(out, "{}", item.text)
             };
-            write_result.map_err(|err| err.to_string())?;
+            write_result.map_err(map_output_error)?;
 
             emitted += 1;
             if emitted.is_multiple_of(1024) {
-                out.flush().map_err(|err| err.to_string())?;
+                out.flush().map_err(map_output_error)?;
             }
             Ok(())
         })?;
-        out.flush().map_err(|err| err.to_string())?;
+        out.flush().map_err(map_output_error)?;
         return Ok(());
     }
 
@@ -133,14 +139,22 @@ fn run_generate(args: &[String]) -> Result<(), String> {
     for item in generated {
         if show_score {
             writeln!(out, "{:.4}\t{:.4}\t{}", item.average, item.total, item.text)
-                .map_err(|err| err.to_string())?;
+                .map_err(map_output_error)?;
         } else {
-            writeln!(out, "{}", item.text).map_err(|err| err.to_string())?;
+            writeln!(out, "{}", item.text).map_err(map_output_error)?;
         }
     }
-    out.flush().map_err(|err| err.to_string())?;
+    out.flush().map_err(map_output_error)?;
 
     Ok(())
+}
+
+fn map_output_error(err: io::Error) -> String {
+    if err.kind() == ErrorKind::BrokenPipe {
+        BROKEN_PIPE_ERROR.to_string()
+    } else {
+        err.to_string()
+    }
 }
 
 fn run_score(args: &[String]) -> Result<(), String> {
