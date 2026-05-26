@@ -12,7 +12,7 @@ GENERATE OPTIONS:
   --min, --min-len N             Minimum length, default 4
   --max, --max-len N             Maximum length, default 8
   --limit N                      Maximum sequences to print; default is unlimited
-  --beam N                       Beam width, default 4096
+  --beam N                       Beam width, default 1000000
   --jobs, --threads N            Rayon worker threads; default uses Rayon/CPU default
   --engine ENGINE                reference|fast-v1, default fast-v1
   --reference                    Use the conservative Rust contract engine
@@ -41,9 +41,15 @@ SCORE / COMPARE OPTIONS:
 
 EXAMPLES:
   ergokeygen gen --min 4 --max 8 --prefer-hand left --mode onehand --chars lower
+  ergokeygen gen --min 4 --max 8 --beam 10000000 --prefer-hand left --mode onehand --chars lower
   ergokeygen gen --stream --min 4 --max 8 --limit 99999 --prefer-hand left --mode onehand --chars lower | hashcat -a 0 ...
   ergokeygen score asdf --prefer-hand left --mode onehand --explain
   ergokeygen compare asdf fddf --prefer-hand left --mode onehand
+
+BEAM TUNING:
+  --beam is usually the main knob to change. Higher values keep more candidate
+  prefixes at each length, improving coverage and output size at the cost of
+  RAM and CPU. Lower values run faster and use less memory, but prune harder.
 "#
     );
 }

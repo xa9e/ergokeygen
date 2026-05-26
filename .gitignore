@@ -8,3 +8,10 @@
 /docs/.THOUGHTS.*
 /handoff.md
 /OPTIMIZATION.md
+
+# Generated wordlists can be very large; publish them as release assets if needed.
+/wordlists/*.txt
+/wordlists/*.txt.zst
+/wordlists/*.zst
+/*_beam_*.txt
+/*_beam_*.txt.zst

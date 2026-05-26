@@ -94,6 +94,35 @@ Generate lowercase left-hand ergonomic candidates:
 By default `gen` prints every candidate retained by the configured beam and
 length range. Add `--limit N` when you want only the top `N` lines.
 
+The main parameter you will usually tune is `--beam`. A larger beam keeps more
+candidate prefixes at every length, so coverage and output size go up, while
+CPU and memory use also increase. A smaller beam runs faster and uses less
+memory, but prunes the search more aggressively. The default beam is `1000000`.
+
+On one test machine, this mode produced about 4.46 million lines in about 2.2
+seconds:
+
+```bash
+time ./target/release/ergokeygen gen \
+  --min 4 \
+  --max 8 \
+  --beam 1000000 \
+  --prefer-hand left \
+  --mode onehand \
+  --chars lower | wc -l
+```
+
+Example output:
+
+```text
+4456976
+./target/release/ergokeygen gen ...  19.85s user 0.98s system 949% cpu 2.194 total
+wc -l  0.00s user 0.01s system 0% cpu 2.194 total
+```
+
+For a broader demo run, try `--beam 10000000`. For quick experiments or
+low-memory machines, reduce `--beam` substantially.
+
 Pipe into hashcat:
 
 ```bash
@@ -347,6 +376,36 @@ cargo test
 
 По умолчанию `gen` печатает все кандидаты, оставшиеся после заданного beam и
 диапазона длин. Добавь `--limit N`, если нужны только первые `N` строк.
+
+Главный параметр, который обычно имеет смысл менять, это `--beam`. Чем выше
+beam, тем больше candidate-prefixes сохраняется на каждой длине, тем шире
+coverage и больше итоговый вывод, но тем выше расход CPU и памяти. Чем ниже
+beam, тем быстрее и экономнее запуск, но тем агрессивнее обрезается поиск.
+Дефолтный beam: `1000000`.
+
+На одной тестовой машине такой режим сгенерировал около 4.46 млн строк примерно
+за 2.2 секунды:
+
+```bash
+time ./target/release/ergokeygen gen \
+  --min 4 \
+  --max 8 \
+  --beam 1000000 \
+  --prefer-hand left \
+  --mode onehand \
+  --chars lower | wc -l
+```
+
+Пример вывода:
+
+```text
+4456976
+./target/release/ergokeygen gen ...  19.85s user 0.98s system 949% cpu 2.194 total
+wc -l  0.00s user 0.01s system 0% cpu 2.194 total
+```
+
+Для более широкой демки можно поставить `--beam 10000000`. Для быстрых проб или
+машин с небольшим запасом RAM, наоборот, сильно уменьши `--beam`.
 
 Pipe в hashcat:
 

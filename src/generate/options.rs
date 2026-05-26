@@ -75,7 +75,7 @@ impl Default for GenerateOptions {
             min_len: 4,
             max_len: 8,
             limit: usize::MAX,
-            beam: 4096,
+            beam: 1_000_000,
             charset: charset_by_name("lower")
                 .unwrap_or_else(|_| "abcdefghijklmnopqrstuvwxyz".chars().collect()),
             max_avg_cost: None,
